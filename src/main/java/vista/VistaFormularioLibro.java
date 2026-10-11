@@ -7,7 +7,6 @@ import util.Validador;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class VistaFormularioLibro extends JDialog {
     private JPanel panel1;
@@ -56,8 +55,9 @@ public class VistaFormularioLibro extends JDialog {
                     }
 
                     controladorGestionDeLibros.guardarLibro(idLibro, VistaFormularioLibro.this);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                } catch (Exception ex) {
+                    mostrarError("Error al guardar el libro: " + ex.getMessage());
+                    return;
                 }
                 dispose();
             }

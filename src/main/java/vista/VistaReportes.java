@@ -48,8 +48,11 @@ public class VistaReportes extends JFrame {
         });
 
         pack();
+        setMinimumSize(new java.awt.Dimension(600, 450));
         setLocationRelativeTo(null);
         setVisible(true);
+        toFront();
+        requestFocus();
     }
 
     public void mostrarError(String mensaje) {

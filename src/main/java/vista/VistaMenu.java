@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 
 public class VistaMenu extends JFrame {
     private JPanel panel1;
@@ -51,8 +50,9 @@ public class VistaMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     controladorMenu.abrirGestionDeLibros();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                } catch (Exception ex) {
+                    mostrarError("Error al abrir gestion de libros: " + ex.getMessage());
+                    setVisible(true);
                 }
             }
         });
@@ -62,8 +62,9 @@ public class VistaMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     controladorMenu.abrirGestionEstudiantes();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                } catch (Exception ex) {
+                    mostrarError("Error al abrir gestion de estudiantes: " + ex.getMessage());
+                    setVisible(true);
                 }
             }
         });

@@ -34,12 +34,14 @@ public class ControladorMenu {
 
     //muestra la vista de estudiante
     private void sesionEstudiante() {
-        vistaMenu.getBtnConsultarLibros().setVisible(false);
+        vistaMenu.getBtnGestionDeLibros().setVisible(false);
         vistaMenu.getBtnGestionEstudiantes().setVisible(false);
         vistaMenu.getBtnPrestamosYDevoluciones().setVisible(false);
         vistaMenu.getBtnReportes().setVisible(false);
 
         vistaMenu.setVisible(true);
+        vistaMenu.toFront();
+        vistaMenu.requestFocus();
     }
 
     //muestra la vista de bibliotecario
@@ -50,7 +52,8 @@ public class ControladorMenu {
         vistaMenu.getBtnMisPrestamos().setVisible(false);
 
         vistaMenu.setVisible(true);
-
+        vistaMenu.toFront();
+        vistaMenu.requestFocus();
     }
 
 
@@ -69,6 +72,8 @@ public class ControladorMenu {
     //vuelve a mostrar el menu desde una vista hija
     public void mostrarVistaMenu(){
         vistaMenu.setVisible(true);
+        vistaMenu.toFront();
+        vistaMenu.requestFocus();
     }
 
     //abre las vistas de cada boton del menu

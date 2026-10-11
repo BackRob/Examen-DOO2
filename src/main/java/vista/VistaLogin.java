@@ -64,6 +64,8 @@ public class VistaLogin extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+        toFront();
+        requestFocus();
     }
 
     public void mostrarError(String mensaje) {

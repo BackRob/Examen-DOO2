@@ -35,6 +35,41 @@ public class EstudianteDAO{
 
     }
 
+    public void editarEstudiante(Estudiante estudiante) throws SQLException {
+        String sql = "update estudiantes set nombre=?, rut=?, correo=? where id=?";
+        Connection conexion = null;
+        PreparedStatement sentencia = null;
+        try {
+            conexion = ConexionBD.getConexion();
+            sentencia = conexion.prepareStatement(sql);
+            sentencia.setString(1, estudiante.getNombre());
+            sentencia.setString(2, estudiante.getRut());
+            sentencia.setString(3, estudiante.getCorreo());
+            sentencia.setInt(4, estudiante.getId());
+            sentencia.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConexionBD.cerrar(sentencia);
+        }
+    }
+
+    public void eliminarEstudiante(int id) throws SQLException {
+        String sql = "delete from estudiantes where id = ?";
+        Connection conexion = null;
+        PreparedStatement sentencia = null;
+        try {
+            conexion = ConexionBD.getConexion();
+            sentencia = conexion.prepareStatement(sql);
+            sentencia.setInt(1, id);
+            sentencia.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConexionBD.cerrar(sentencia);
+        }
+    }
+
     public List<Estudiante> listarEstudiantes(){
         List<Estudiante> estudiantes=new ArrayList<>();
         String sql = "select * from estudiantes";

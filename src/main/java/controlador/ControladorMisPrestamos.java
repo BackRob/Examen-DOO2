@@ -1,7 +1,11 @@
 package controlador;
 
+import dao.PrestamoDAO;
+import model.Prestamo;
 import model.Sesion;
 import vista.VistaMisPrestamos;
+
+import java.sql.SQLException;
 
 public class ControladorMisPrestamos {
 
@@ -14,12 +18,20 @@ public class ControladorMisPrestamos {
         cargarPrestamos();
     }
 
-    //TODO: con Sesion.getIntancia().getUsuario().getId() consultar con el DAO todos los prestamos de ese estudiante
-    //y por cada uno hacer
-    //vistaMisPrestamos.getModeloTabla().addRow(new Object[]{id, titulo, fechaPrestamo, fechaDevolucion, estado});
+    //carga todos los prestamos (historicos) del estudiante logueado
     private void cargarPrestamos() {
         int idEstudiante = Sesion.getIntancia().getUsuario().getId();
         vistaMisPrestamos.getModeloTabla().setRowCount(0);
+        try {
+            for (Prestamo prestamo : new PrestamoDAO().listarPorEstudiante(idEstudiante)) {
+                vistaMisPrestamos.getModeloTabla().addRow(new Object[]{
+                        prestamo.getId(), prestamo.getTituloLibro(), prestamo.getFechaPrestamo(),
+                        prestamo.getFechaDevolucion(), prestamo.getEstado()
+                });
+            }
+        } catch (SQLException e) {
+            vistaMisPrestamos.mostrarError("Error al cargar los prestamos: " + e.getMessage());
+        }
     }
 
     public void volver() {

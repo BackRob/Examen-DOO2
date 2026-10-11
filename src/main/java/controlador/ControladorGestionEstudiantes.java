@@ -56,7 +56,6 @@ public class ControladorGestionEstudiantes {
         }
         int idEstudiante = (int) vistaGestionEstudiantes.getModeloTabla().getValueAt(filaSeleccionada, 0);
         new VistaHistorialPrestamos(idEstudiante);
-        //TODO: dentro de VistaHistorialPrestamos.getModeloTabla() cargar los prestamos de ese estudiante con el DAO
     }
 
     public void editarEstudiante(int filaSeleccionada) {
@@ -68,12 +67,13 @@ public class ControladorGestionEstudiantes {
         new VistaFormularioEstudiante(this, datosEstudiante);
     }
 
-    //TODO: tomar el id de la fila seleccionada (columna 0) y eliminar el estudiante con el DAO, luego recargar la tabla
     public void eliminarEstudiante(int filaSeleccionada) throws SQLException {
         if (filaSeleccionada < 0) {
             vistaGestionEstudiantes.mostrarError("Selecciona un estudiante de la tabla");
             return;
         }
+        int idEstudiante = (int) vistaGestionEstudiantes.getModeloTabla().getValueAt(filaSeleccionada, 0);
+        new EstudianteDAO().eliminarEstudiante(idEstudiante);
         cargarEstudiantes();
     }
 

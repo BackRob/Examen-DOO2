@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 
 public class VistaGestionDeLibros extends JFrame {
     private JPanel panel1;
@@ -43,8 +42,8 @@ public class VistaGestionDeLibros extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     controladorGestionDeLibros.vistaAgregarLibro();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                } catch (Exception ex) {
+                    mostrarError("Error al abrir el formulario: " + ex.getMessage());
                 }
             }
         });
@@ -54,8 +53,8 @@ public class VistaGestionDeLibros extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     controladorGestionDeLibros.editarLibro(tabla.getSelectedRow());
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                } catch (Exception ex) {
+                    mostrarError("Error al abrir el formulario: " + ex.getMessage());
                 }
             }
         });
@@ -65,8 +64,8 @@ public class VistaGestionDeLibros extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     controladorGestionDeLibros.eliminarLibro(tabla.getSelectedRow());
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                } catch (Exception ex) {
+                    mostrarError("Error al eliminar el libro: " + ex.getMessage());
                 }
             }
         });
@@ -89,6 +88,8 @@ public class VistaGestionDeLibros extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+        toFront();
+        requestFocus();
     }
 
 

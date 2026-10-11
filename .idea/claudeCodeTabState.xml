@@ -8,6 +8,8 @@
             <TabSessionState>
               <option name="projectPath" value="D:\Projectos\Examen-DOO2" />
               <option name="provider" value="claude" />
+              <option name="sessionId" value="0242a2b1-eea0-4bc6-bda7-394859976250" />
+              <option name="cwd" value="D:\Projectos\Examen-DOO2" />
               <option name="model" value="claude-sonnet-5[1m]" />
               <option name="permissionMode" value="default" />
             </TabSessionState>

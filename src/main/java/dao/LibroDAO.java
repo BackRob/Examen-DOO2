@@ -102,6 +102,33 @@ public class LibroDAO {
         }
     }
 
+    public int descontarStock(int idLibro) throws SQLException {
+        String sql = "UPDATE libros SET stock = stock-1 WHERE id = ? AND stock > 0";
+        return sumarODescontarStock(idLibro, sql);
+    }
+
+    public int sumarStock(int idLibro) throws SQLException {
+        String sql = "UPDATE libros SET stock = stock+1 WHERE id = ?";
+        return sumarODescontarStock(idLibro, sql);
+    }
+
+    private int sumarODescontarStock(int idLibro, String sql) {
+        Connection conexion = null;
+        PreparedStatement sentencia = null;
+        try {
+            conexion = ConexionBD.getConexion();
+            sentencia = conexion.prepareStatement(sql);
+            sentencia.setInt(1, idLibro);
+            return sentencia.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConexionBD.cerrar(sentencia);
+        }
+    }
+
+
+
     public void eliminarLibro(int id) throws SQLException {
         String sql = "delete from libros where id = ?";
         Connection conexion = null;

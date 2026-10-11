@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 
 public class VistaGestionEstudiantes extends JFrame {
     private JPanel panel1;
@@ -57,8 +56,8 @@ public class VistaGestionEstudiantes extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     controladorGestionEstudiantes.eliminarEstudiante(tabla.getSelectedRow());
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                } catch (Exception ex) {
+                    mostrarError("Error al eliminar el estudiante: " + ex.getMessage());
                 }
             }
         });
@@ -79,6 +78,8 @@ public class VistaGestionEstudiantes extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+        toFront();
+        requestFocus();
     }
 
     public void mostrarError(String mensaje) {

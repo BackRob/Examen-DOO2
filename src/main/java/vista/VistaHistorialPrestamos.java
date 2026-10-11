@@ -1,9 +1,13 @@
 package vista;
 
+import dao.PrestamoDAO;
+import model.Prestamo;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class VistaHistorialPrestamos extends JDialog {
     private JPanel panel1;
@@ -19,7 +23,6 @@ public class VistaHistorialPrestamos extends JDialog {
         setContentPane(panel1);
         setModal(true);
 
-        //el diseñador no define columnas ni bloquea la edicion de celdas, se arma el modelo por codigo
         String[] columnas = {"ID", "Titulo", "Fecha Prestamo", "Fecha Devolucion", "Estado"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
@@ -29,7 +32,16 @@ public class VistaHistorialPrestamos extends JDialog {
         };
         tabla.setModel(modeloTabla);
 
-        //TODO: cargar aqui los prestamos del estudiante (idEstudiante) con PrestamoDAO.listarPorEstudiante(...)
+        try {
+            for (Prestamo prestamo : new PrestamoDAO().listarPorEstudiante(idEstudiante)) {
+                modeloTabla.addRow(new Object[]{
+                        prestamo.getId(), prestamo.getTituloLibro(), prestamo.getFechaPrestamo(),
+                        prestamo.getFechaDevolucion(), prestamo.getEstado()
+                });
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar el historial: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
         btnCerrar.addActionListener(new ActionListener() {
             @Override

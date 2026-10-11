@@ -33,10 +33,10 @@ public class ControladorLogin {
         }
 
         if (usuario == null) {
-            vistaLogin.mostrarError("Credenciales no validos");
+            vistaLogin.mostrarError("Credenciales no válidas");
         }else{
             Sesion.getIntancia().setUsuario(usuario);
-            vistaLogin.mostrarMensaje("Inicio de sesion Correcto\nHola "+usuario+"!");
+            vistaLogin.mostrarMensaje("Inicio de sesión correcto.\nBienvenido/a, " + usuario.getNombre() + ".");
             ocultarVista();
             new ControladorMenu(this);
         }
@@ -53,6 +53,8 @@ public class ControladorLogin {
     public void mostrarVista(){
         vistaLogin.limpiarjTextField();
         vistaLogin.setVisible(true);
+        vistaLogin.toFront();
+        vistaLogin.requestFocus();
     }
 
 

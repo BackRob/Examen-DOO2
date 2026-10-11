@@ -1,7 +1,12 @@
 package controlador;
 
+import dao.PrestamoDAO;
+import model.Prestamo;
 import model.Sesion;
+import util.GestorPrestamos;
 import vista.VistaDevolverLibro;
+
+import java.sql.SQLException;
 
 public class ControladorDevolverLibro {
 
@@ -14,22 +19,41 @@ public class ControladorDevolverLibro {
         cargarPrestamosActivos();
     }
 
-    //TODO: con Sesion.getIntancia().getUsuario().getId() consultar con el DAO los prestamos activos (no devueltos)
-    //de ese estudiante y por cada uno hacer
-    //vistaDevolverLibro.getModeloTabla().addRow(new Object[]{idPrestamo, titulo, fechaPrestamo, fechaDevolucion});
+    //carga los prestamos activos (no devueltos) del estudiante logueado
     private void cargarPrestamosActivos() {
         int idEstudiante = Sesion.getIntancia().getUsuario().getId();
         vistaDevolverLibro.getModeloTabla().setRowCount(0);
+        try {
+            for (Prestamo prestamo : new PrestamoDAO().listarActivosPorEstudiante(idEstudiante)) {
+                vistaDevolverLibro.getModeloTabla().addRow(new Object[]{
+                        prestamo.getId(), prestamo.getTituloLibro(), prestamo.getFechaPrestamo(), prestamo.getFechaDevolucion()
+                });
+            }
+        } catch (SQLException e) {
+            vistaDevolverLibro.mostrarError("Error al cargar los prestamos: " + e.getMessage());
+        }
     }
 
-    //TODO: tomar el id de prestamo de la fila seleccionada (columna 0), marcarlo como devuelto con el DAO,
-    //reponer el stock del libro y recargar la tabla
     public void devolverLibro(int filaSeleccionada) {
         if (filaSeleccionada < 0) {
             vistaDevolverLibro.mostrarError("Selecciona un prestamo de la tabla");
             return;
         }
-        cargarPrestamosActivos();
+        int idPrestamo = (int) vistaDevolverLibro.getModeloTabla().getValueAt(filaSeleccionada, 0);
+
+        new Thread(()->{
+
+            try {
+                GestorPrestamos.getInstance().devolverPrestamo(idPrestamo);
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    vistaDevolverLibro.mostrarMensaje("Devolucion registrada");
+                    cargarPrestamosActivos();
+                });
+            } catch (SQLException e) {
+                javax.swing.SwingUtilities.invokeLater(() ->
+                        vistaDevolverLibro.mostrarError("Error al registrar la devolucion: " + e.getMessage()));
+            }
+        }).start();
     }
 
     public void volver() {

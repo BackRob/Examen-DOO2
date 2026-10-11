@@ -61,7 +61,6 @@ public class ControladorGestionDeLibros {
         new VistaFormularioLibro(this, datosLibro, cargarCategorias());
     }
 
-    //TODO: tomar el id de la fila seleccionada (columna 0) y eliminar el libro con el DAO, luego recargar la tabla
     public void eliminarLibro(int filaSeleccionada) throws SQLException {
         if (filaSeleccionada < 0) {
             vistaGestionDeLibros.mostrarError("Selecciona un libro de la tabla");
