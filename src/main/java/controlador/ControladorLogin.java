@@ -17,7 +17,9 @@ public class ControladorLogin {
     public ControladorLogin(){
         vistaLogin = new VistaLogin(this);
         usuarioDAO = new UsuarioDAO();
-        vistaLogin.llenar();
+
+        //funcion para hacer pruebas.
+        //vistaLogin.llenar();
     }
 
 
